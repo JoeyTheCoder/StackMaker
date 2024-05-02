@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" style="padding: 20px;">
     <div formArrayName="rows">
       <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
         <div class="example-container">
@@ -62,4 +62,23 @@
       </div>
     </div>
     <button mat-raised-button (click)="addRow()">Add Row</button>
+    <button mat-raised-button (click)="deleteRow()">Delete Row</button>
+    <button mat-raised-button (click)="createStack()">Create Stacks</button>
+
+    <div>
+      <h2>Stack 1: </h2>
+      <div *ngFor="let player of sortedStack1">
+        <p>{{player.name}}</p>
+        <p>Role 1: {{player.role1}}</p>
+        <p>Role 2: {{player.role2}}</p>
+      </div>
+    
+      <h2>Stack 2: </h2>
+      <div *ngFor="let player of sortedStack2">
+        <p>{{player.name}}</p>
+
+        <p>Role 1: {{player.role1}}</p>
+        <p>Role 2: {{player.role2}}</p>
+      </div>
+    </div>
   </form>

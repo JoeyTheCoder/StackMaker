@@ -60,17 +60,26 @@
           </mat-form-field>
         </div>
       </div>
+     
     </div>
+    
     <button mat-raised-button (click)="addRow()">Add Row</button>
     <button mat-raised-button (click)="deleteRow()">Delete Row</button>
     <button mat-raised-button (click)="createStack()">Create Stacks</button>
+    
 
-    <div *ngFor="let team of teams; index as i">
-      <h2>Team {{i + 1}}</h2>
+    <div *ngFor="let team of teams; index as teamIndex">
+      <h2>Team {{teamIndex + 1}}</h2>
       <ul>
-        <li *ngFor="let player of team">
-          {{player.name}} ({{player.assignedRole}})
+        <li *ngFor="let player of team.players">
+          Name: {{player.name}}, Assigned Role: {{player.currentRole}}
         </li>
       </ul>
     </div>
+
+    <div [formGroup]="checkboxForm">
+      <input type="checkbox" formControlName="clash">
+    </div>
+
   </form>
+

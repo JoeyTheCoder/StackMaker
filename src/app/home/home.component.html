@@ -71,12 +71,12 @@
     <div *ngFor="let team of teams; index as teamIndex">
       <h2>Team {{ teamIndex + 1 }}</h2>
       <ul>
-        <li *ngFor="let player of team">
-          Name: {{ player.name }}, Rank: {{ player.rank }}, Role 1: {{ player.role1 }}, Role 2: {{ player.role2 }}
-        </li>
+          <li *ngFor="let player of team">
+              Name: {{ player.name }}, Rank: {{ player.rank }}, Assigned Role: {{ player.assigned_role }}
+          </li>
       </ul>
-    </div>
-    
+  </div>
+  
     <div [formGroup]="checkboxForm">
       <input type="checkbox" formControlName="clash">
     </div>

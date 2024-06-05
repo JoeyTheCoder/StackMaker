@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Team } from '../classes/team';
-import { Player } from '../classes/player';
+import { TeamService } from '../services/team.service'; // Import the service
 
 @Component({
   selector: 'app-home',
@@ -11,12 +10,10 @@ import { Player } from '../classes/player';
 export class HomeComponent implements OnInit {
   form: FormGroup;
   checkboxForm: FormGroup;
-  teams: Team[] = []; // Änderung hier
-  players: Player[] = [];
+  teams: any[] = []; // Add a property to hold the teams
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private teamService: TeamService) { // Inject the service
     this.form = this.fb.group({
- 
       rows: this.fb.array([]),
     });
     this.checkboxForm = this.fb.group({
@@ -25,8 +22,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
- 
-  
     this.form.addControl('clash', this.fb.control(''));
     this.loadForm();
     this.form.valueChanges.subscribe((value) => {
@@ -71,59 +66,32 @@ export class HomeComponent implements OnInit {
 
   createStack() {
     console.log(JSON.stringify(this.form.value));
-  
-    // Umwandeln der Formulardaten in Player-Objekte
-    this.players = this.form.value.rows.map((row: any) => new Player(row.name, row.rank, row.role1, row.role2, row.preference));
-  
-    this.assignPlayersToTeams();
-  }
 
+    const rankMapping: { [key: string]: number } = {
+      'Iron4': 1, 'Iron3': 2, 'Iron2': 3, 'Iron1': 4,
+      'Bronze4': 5, 'Bronze3': 6, 'Bronze2': 7, 'Bronze1': 8,
+      'Silver4': 9, 'Silver3': 10, 'Silver2': 11, 'Silver1': 12,
+      'Gold4': 13, 'Gold3': 14, 'Gold2': 15, 'Gold1': 16,
+      'Platinum4': 17, 'Platinum3': 18, 'Platinum2': 19, 'Platinum1': 20,
+      'Diamond4': 21, 'Diamond3': 22, 'Diamond2': 23, 'Diamond1': 24,
+      'Master': 25, 'Grandmaster': 26, 'Challenger': 27
+    };
 
+    const roles = ['Top', 'Jungle', 'Mid', 'Adc', 'Support']; // Define roles
+    const players = this.form.value.rows.map((row: any) => ({
+      name: row.name,
+      rank: rankMapping[row.rank], // Convert rank to numeric value
+      role1: row.role1,
+      role2: row.role2
+    }));
 
-  assignPlayersToTeams() {
-    // Definieren Sie die Rollen und Ränge
-    const roles = ['Top', 'Jungle', 'Mid', 'Adc', 'Support'];
-    const ranks = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Grandmaster', 'Challenger'];
-  
-    // Sortieren Sie die Spieler nach Rang und Präferenz
-    this.players.sort((a, b) => ranks.indexOf(a.rank) - ranks.indexOf(b.rank) || a.preference - b.preference);
-  
-    // Erstellen Sie zwei Teams
-    const team1 = new Team([]);
-    const team2 = new Team([]);
-  
-    // Weisen Sie die Spieler den Teams zu
-    this.players.forEach(player => {
-      // Prüfen Sie, welches Team die bevorzugte Rolle des Spielers verfügbar hat
-      if (team1.hasRoleAvailable(player.role1) && !team1.hasPlayerWithRole(player.role1)) {
-        team1.addPlayer(player, player.role1);
-      } else if (team2.hasRoleAvailable(player.role1) && !team2.hasPlayerWithRole(player.role1)) {
-        team2.addPlayer(player, player.role1);
-      } else if (team1.hasRoleAvailable(player.role2) && !team1.hasPlayerWithRole(player.role2)) {
-        team1.addPlayer(player, player.role2);
-      } else if (team2.hasRoleAvailable(player.role2) && !team2.hasPlayerWithRole(player.role2)) {
-        team2.addPlayer(player, player.role2);
-      } else {
-        // Wenn keine der bevorzugten Rollen verfügbar ist, weisen Sie dem Spieler eine verfügbare Rolle zu
-        const role = team1.playerCount() < team2.playerCount() ? team1.getAvailableRole() : team2.getAvailableRole();
-        if (team1.playerCount() < team2.playerCount()) {
-          team1.addPlayer(player, role);
-        } else {
-          team2.addPlayer(player, role);
-        }
+    this.teamService.createTeams({ players, roles }).subscribe(
+      (teams: any) => {
+        this.teams = [teams.team1, teams.team2]; // Update the teams property
+      },
+      (error: any) => { // Specify the type of error
+        console.error('Error creating teams:', error);
       }
-    });
-  
-    // Speichern Sie die Teams in der Komponentenklasse
-    this.teams = [team1, team2];
-  }
-  
-  areAllRolesFilled(team: Team): boolean {
-    let roles = ['role1', 'role2', 'role3', 'role4', 'role5'];
-    return roles.every(role => team.hasPlayerWithRole(role));
-  }
-  
-  getSortedPlayersForTeam(teamIndex: number): Player[] {
-    return this.teams[teamIndex].players.sort((a, b) => a.preference - b.preference); // Änderung hier
+    );
   }
 }

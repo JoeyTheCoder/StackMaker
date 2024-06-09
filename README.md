@@ -16,3 +16,4 @@ This Project should step in when it's too socially awkward to decide how to spli
 - All this rank split up should still prioritize role preference matchmaking over just ordering by rank
 - If there is a role that cannot be covered by any preference it needs to be autofilled by someone who is overlapping (take 1 player of overlapping roles at random as autofill)
 - The algo shouldn't care how many people are entered what's important is that there are stacks of 5 generated and for the rest the other viable options in flex queue (5, 3, 2)
+- If two players have the same main role, the one with the higher rank should have higher priority for it

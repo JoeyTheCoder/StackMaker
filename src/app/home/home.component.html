@@ -1,14 +1,25 @@
-<form [formGroup]="form" style="padding: 20px;">
-    <div formArrayName="rows">
-      <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
-        <div class="example-container">
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" placeholder="Enter your name">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Rank</mat-label>
-            <mat-select formControlName="rank">
+<div class="content">
+  <div class="form-container">
+    <!-- Column Titles -->
+    <div class="example-container column-titles">
+      <div>Name</div>
+      <div>Rank</div>
+      <div>Role 1</div>
+      <div>Role 2</div>
+      <div>I can't play</div>
+    </div>
+    
+    <form [formGroup]="form">
+      <div formArrayName="rows">
+        <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+          <div class="example-container">
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Rank</mat-label>
+              <mat-select formControlName="rank">
                 <mat-option value="Iron4">Iron 4</mat-option>
                 <mat-option value="Iron3">Iron 3</mat-option>
                 <mat-option value="Iron2">Iron 2</mat-option>
@@ -36,50 +47,56 @@
                 <mat-option value="Master">Master</mat-option>
                 <mat-option value="Grandmaster">Grandmaster</mat-option>
                 <mat-option value="Challenger">Challenger</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Role 1</mat-label>
-            <mat-select formControlName="role1">
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Role 1</mat-label>
+              <mat-select formControlName="role1">
                 <mat-option value="Top">Top</mat-option>
-            <mat-option value="Jungle">Jungle</mat-option>
-            <mat-option value="Mid">Mid</mat-option>
-            <mat-option value="Adc">Adc</mat-option>
-            <mat-option value="Support">Support</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Role 2</mat-label>
-            <mat-select formControlName="role2">
+                <mat-option value="Jungle">Jungle</mat-option>
+                <mat-option value="Mid">Mid</mat-option>
+                <mat-option value="Adc">Adc</mat-option>
+                <mat-option value="Support">Support</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Role 2</mat-label>
+              <mat-select formControlName="role2">
                 <mat-option value="Top">Top</mat-option>
-            <mat-option value="Jungle">Jungle</mat-option>
-            <mat-option value="Mid">Mid</mat-option>
-            <mat-option value="Adc">Adc</mat-option>
-            <mat-option value="Support">Support</mat-option>
-            </mat-select>
-          </mat-form-field>
+                <mat-option value="Jungle">Jungle</mat-option>
+                <mat-option value="Mid">Mid</mat-option>
+                <mat-option value="Adc">Adc</mat-option>
+                <mat-option value="Support">Support</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>I can't play:</mat-label>
+              <mat-select formControlName="role2">
+                <mat-option value="Top">Top</mat-option>
+                <mat-option value="Jungle">Jungle</mat-option>
+                <mat-option value="Mid">Mid</mat-option>
+                <mat-option value="Adc">Adc</mat-option>
+                <mat-option value="Support">Support</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-     
-    </div>
-    
-    <button mat-raised-button (click)="addRow()">Add Row</button>
-    <button mat-raised-button (click)="deleteRow()">Delete Row</button>
-    <button mat-raised-button (click)="createStack()">Create Stacks</button>
-    
+      
+      <div>
+        <button id="addButton" mat-raised-button (click)="addRow()">Add Row</button>
+        <button id="deleteButton" mat-raised-button (click)="deleteRow()">Delete Row</button>
+        <button id="createButton" mat-raised-button (click)="createStack()">Create Stacks</button>
+      </div>
 
-    <div *ngFor="let team of teams; index as teamIndex">
-      <h2>Team {{ teamIndex + 1 }}</h2>
-      <ul>
+      <div *ngFor="let team of teams; index as teamIndex">
+        <h2>Team {{ teamIndex + 1 }}</h2>
+        <ul>
           <li *ngFor="let player of team">
-              Name: {{ player.name }}, Rank: {{ player.rank }}, Assigned Role: {{ player.assigned_role }}
+            Name: {{ player.name }}, Rank: {{ player.rank }}, Assigned Role: {{ player.assigned_role }}
           </li>
-      </ul>
+        </ul>
+      </div>
+    </form>
   </div>
-  
-    <div [formGroup]="checkboxForm">
-      <input type="checkbox" formControlName="clash">
-    </div>
-
-  </form>
-
+</div>

@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { DonateComponent } from './donate/donate.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,10 @@ import { DonateComponent } from './donate/donate.component';
     FormsModule,
     MatCheckboxModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    BrowserAnimationsModule,
+    FontAwesomeModule
+    
   ],
   providers: [
     provideClientHydration()

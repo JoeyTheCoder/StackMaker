@@ -1,5 +1,5 @@
 <div class="content">
-  <div class="form-container">
+  <div class="form-container" [@fadeInOut]="showTeams ? 'in' : 'out'">
     <!-- Column Titles -->
     <div class="example-container column-titles">
       <div>Name</div>
@@ -34,6 +34,10 @@
             <option value="Platinum3">Platinum 3</option>
             <option value="Platinum2">Platinum 2</option>
             <option value="Platinum1">Platinum 1</option>
+            <option value="Emerald4">Emerald 4</option>
+            <option value="Emerald3">Emerald 3</option>
+            <option value="Emerald2">Emerald 2</option>
+            <option value="Emerald1">Emerald 1</option>
             <option value="Diamond4">Diamond 4</option>
             <option value="Diamond3">Diamond 3</option>
             <option value="Diamond2">Diamond 2</option>
@@ -56,30 +60,42 @@
             <option value="Adc">Adc</option>
             <option value="Support">Support</option>
           </select>
-          <select formControlName="role2">
+          <select formControlName="notPlay">
             <option value="Top">Top</option>
             <option value="Jungle">Jungle</option>
             <option value="Mid">Mid</option>
             <option value="Adc">Adc</option>
             <option value="Support">Support</option>
           </select>
+          <button type="button" class="delete-button" (click)="deleteRow(i)">
+            <i class="fas fa-trash"></i>
+          </button>
         </div>
       </div>
       
       <div>
-        <button id="addButton" (click)="addRow()">Add Row</button>
-        <button id="deleteButton" (click)="deleteRow()">Delete Row</button>
+        <button type="button" id="addButton" (click)="addRow()" class="add-button">
+          <i class="fas fa-plus"></i>
+        </button>
         <button id="createButton" (click)="createStack()">Create Stacks</button>
       </div>
+    </form>
+  </div>
 
+  <!-- Overlay Card -->
+  <div class="overlay" *ngIf="showTeams" [@fadeInOut]="'in'">
+    <div class="card">
+      <h2>Created Teams</h2>
       <div *ngFor="let team of teams; index as teamIndex">
-        <h2>Team {{ teamIndex + 1 }}</h2>
+        <h3>Team {{ teamIndex + 1 }}</h3>
         <ul>
-          <li *ngFor="let player of team">
-            Name: {{ player.name }}, Rank: {{ player.rank }}, Assigned Role: {{ player.assigned_role }}
+          <li *ngFor="let player of team; let roleIndex = index">
+            <fa-icon [icon]="getRoleIcon(roleIndex)"></fa-icon>
+            Name: {{ player.name }}, Rank: {{ player.rank }}
           </li>
         </ul>
       </div>
-    </form>
+      <button (click)="closeOverlay()">Close</button>
+    </div>
   </div>
 </div>

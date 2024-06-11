@@ -5,7 +5,7 @@ html, body {
     flex-direction: column;
   }
   
-  body {
+  body {    
     flex: 1;
   }
   

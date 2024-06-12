@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { TeamService } from '../services/team.service'; // Import the service
+import { TeamService } from '../services/team.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faChessKing, faChessQueen, faChessRook, faChessBishop, faChessKnight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -25,18 +23,16 @@ import { faChessKing, faChessQueen, faChessRook, faChessBishop, faChessKnight } 
 export class HomeComponent implements OnInit {
   form: FormGroup;
   checkboxForm: FormGroup;
-  teams: any[] = []; // Add a property to hold the teams
-  showTeams = false; // Add a property to control the visibility of the overlay
+  teams: any[] = [];
+  showTeams = false;
 
-  constructor(private fb: FormBuilder, private teamService: TeamService, private library: FaIconLibrary) { // Inject the service
+  constructor(private fb: FormBuilder, private teamService: TeamService) {
     this.form = this.fb.group({
       rows: this.fb.array([]),
     });
     this.checkboxForm = this.fb.group({
       clash: ['']
     });
-
-    this.library.addIcons(faChessKing, faChessQueen, faChessRook, faChessBishop, faChessKnight);
   }
 
   ngOnInit() {
@@ -132,17 +128,17 @@ export class HomeComponent implements OnInit {
   getRoleIcon(roleIndex: number) {
     switch (roleIndex) {
       case 0:
-        return 'fas fa-chess-king';
+        return '../../assets/img/league_role_icons/top.webp '
       case 1:
-        return 'fas fa-chess-queen';
+        return '../../assets/img/league_role_icons/jungle.webp';
       case 2:
-        return 'fas fa-chess-rook';
+        return '../../assets/img/league_role_icons/mid.webp';
       case 3:
-        return 'fas fa-chess-bishop';
+        return '../../assets/img/league_role_icons/adc.webp';
       case 4:
-        return 'fas fa-chess-knight';
+        return '../../assets/img/league_role_icons/support.webp';
       default:
-        return 'fas fa-chess-king'; // Default icon if index is out of bounds
+        return '../../assets/img/league_role_icons/top.webp'; // Default icon if index is out of bounds
     }
   }
 }

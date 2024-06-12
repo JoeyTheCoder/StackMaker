@@ -93,6 +93,7 @@ button {
 #createButton {
   background-color: #17a2b8;
 }
+
 .overlay {
   position: fixed;
   top: 0;
@@ -130,6 +131,27 @@ button {
   cursor: pointer;
 }
 
+/* New styles for the role icons and list items */
+.role-icon {
+  width: 1em; /* Set the icon width to the same size as the text */
+  height: 1em; /* Set the icon height to the same size as the text */
+  vertical-align: middle; /* Align the icon vertically in the middle */
+}
+
+.card ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+}
+
+.card li {
+  display: flex;
+  align-items: center; /* Center align the text and icon vertically */
+  margin-bottom: 0.5em; /* Add some spacing between list items */
+}
+
+.card li img {
+  margin-right: 0.5em; /* Add some spacing between the icon and the text */
+}
 
 @media (max-width: 1200px) {
   .example-container {

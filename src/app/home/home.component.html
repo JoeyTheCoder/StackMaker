@@ -75,7 +75,7 @@
       
       <div>
         <button type="button" id="addButton" (click)="addRow()" class="add-button">
-          <i class="fas fa-plus"></i>
+          Add Player<i class="fas fa-plus"></i>
         </button>
         <button id="createButton" (click)="createStack()">Create Stacks</button>
       </div>
@@ -90,7 +90,7 @@
         <h3>Team {{ teamIndex + 1 }}</h3>
         <ul>
           <li *ngFor="let player of team; let roleIndex = index">
-            <fa-icon [icon]="getRoleIcon(roleIndex)"></fa-icon>
+            <img [src]="getRoleIcon(roleIndex)" alt="Role Icon" class="role-icon">
             Name: {{ player.name }}, Rank: {{ player.rank }}
           </li>
         </ul>

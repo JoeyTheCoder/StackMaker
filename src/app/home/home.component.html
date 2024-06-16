@@ -14,58 +14,16 @@
         <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i" class="form-row">
           <input type="text" formControlName="name" placeholder="Name">
           <select formControlName="rank">
-            <option value="Iron4">Iron 4</option>
-            <option value="Iron3">Iron 3</option>
-            <option value="Iron2">Iron 2</option>
-            <option value="Iron1">Iron 1</option>
-            <option value="Bronze4">Bronze 4</option>
-            <option value="Bronze3">Bronze 3</option>
-            <option value="Bronze2">Bronze 2</option>
-            <option value="Bronze1">Bronze 1</option>
-            <option value="Silver4">Silver 4</option>
-            <option value="Silver3">Silver 3</option>
-            <option value="Silver2">Silver 2</option>
-            <option value="Silver1">Silver 1</option>
-            <option value="Gold4">Gold 4</option>
-            <option value="Gold3">Gold 3</option>
-            <option value="Gold2">Gold 2</option>
-            <option value="Gold1">Gold 1</option>
-            <option value="Platinum4">Platinum 4</option>
-            <option value="Platinum3">Platinum 3</option>
-            <option value="Platinum2">Platinum 2</option>
-            <option value="Platinum1">Platinum 1</option>
-            <option value="Emerald4">Emerald 4</option>
-            <option value="Emerald3">Emerald 3</option>
-            <option value="Emerald2">Emerald 2</option>
-            <option value="Emerald1">Emerald 1</option>
-            <option value="Diamond4">Diamond 4</option>
-            <option value="Diamond3">Diamond 3</option>
-            <option value="Diamond2">Diamond 2</option>
-            <option value="Diamond1">Diamond 1</option>
-            <option value="Master">Master</option>
-            <option value="Grandmaster">Grandmaster</option>
-            <option value="Challenger">Challenger</option>
+            <option *ngFor="let rank of ranks" [value]="rank">{{rank}}</option>
           </select>
           <select formControlName="role1">
-            <option value="Top">Top</option>
-            <option value="Jungle">Jungle</option>
-            <option value="Mid">Mid</option>
-            <option value="Adc">Adc</option>
-            <option value="Support">Support</option>
+            <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
           <select formControlName="role2">
-            <option value="Top">Top</option>
-            <option value="Jungle">Jungle</option>
-            <option value="Mid">Mid</option>
-            <option value="Adc">Adc</option>
-            <option value="Support">Support</option>
+            <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
           <select formControlName="notPlay">
-            <option value="Top">Top</option>
-            <option value="Jungle">Jungle</option>
-            <option value="Mid">Mid</option>
-            <option value="Adc">Adc</option>
-            <option value="Support">Support</option>
+            <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
           <button type="button" class="delete-button" (click)="deleteRow(i)">
             <i class="fas fa-trash"></i>
@@ -75,8 +33,13 @@
       
       <div>
         <button type="button" id="addButton" (click)="addRow()" class="add-button">
-          Add Player<i class="fas fa-plus"></i>
+          <i class="fas fa-plus"></i>
         </button>
+        <select formControlName="teamMode">
+          <option value="Rank">Sort by Rank</option>
+          <option value="Balanced">Balanced</option>
+          <option value="Random">Random</option>
+        </select>
         <button id="createButton" (click)="createStack()">Create Stacks</button>
       </div>
     </form>

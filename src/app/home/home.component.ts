@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { TeamService } from '../services/team.service';
+import { TeamRequest, Player } from '../models/team-request.model'; // Import the interface
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -25,10 +26,22 @@ export class HomeComponent implements OnInit {
   checkboxForm: FormGroup;
   teams: any[] = [];
   showTeams = false;
+  ranks: string[] = [
+    'Iron4', 'Iron3', 'Iron2', 'Iron1',
+    'Bronze4', 'Bronze3', 'Bronze2', 'Bronze1',
+    'Silver4', 'Silver3', 'Silver2', 'Silver1',
+    'Gold4', 'Gold3', 'Gold2', 'Gold1',
+    'Platinum4', 'Platinum3', 'Platinum2', 'Platinum1',
+    'Emerald4', 'Emerald3', 'Emerald2', 'Emerald1',
+    'Diamond4', 'Diamond3', 'Diamond2', 'Diamond1',
+    'Master', 'Grandmaster', 'Challenger'
+  ];
+  roles: string[] = ['Top', 'Jungle', 'Mid', 'Adc', 'Support'];
 
   constructor(private fb: FormBuilder, private teamService: TeamService) {
     this.form = this.fb.group({
       rows: this.fb.array([]),
+      teamMode: ['Rank'] // Add the teamMode control with a default value
     });
     this.checkboxForm = this.fb.group({
       clash: ['']
@@ -80,6 +93,7 @@ export class HomeComponent implements OnInit {
               });
             })
           ),
+          teamMode: [parsedForm.teamMode || 'Rank'] // Ensure teamMode is added with a default value if missing
         });
       } else {
         this.addRow();
@@ -101,8 +115,8 @@ export class HomeComponent implements OnInit {
       'Master': 29, 'Grandmaster': 30, 'Challenger': 31
     };
 
-    const roles = ['Top', 'Jungle', 'Mid', 'Adc', 'Support']; // Define roles
-    const players = this.form.value.rows.map((row: any) => ({
+    const roles = this.roles; // Define roles
+    const players: Player[] = this.form.value.rows.map((row: any) => ({
       name: row.name,
       rank: rankMapping[row.rank], // Convert rank to numeric value
       role1: row.role1,
@@ -110,7 +124,9 @@ export class HomeComponent implements OnInit {
       notPlay: row.notPlay // Add the new field here
     }));
 
-    this.teamService.createTeams({ players, roles }).subscribe(
+    const teamRequest: TeamRequest = { players, roles, mode: this.form.value.teamMode }; // Create request object
+
+    this.teamService.createTeams(teamRequest).subscribe(
       (teams: any) => {
         this.teams = [teams.team1, teams.team2]; // Update the teams property
         this.showTeams = true; // Show the overlay when teams are created
@@ -128,7 +144,7 @@ export class HomeComponent implements OnInit {
   getRoleIcon(roleIndex: number) {
     switch (roleIndex) {
       case 0:
-        return '../../assets/img/league_role_icons/top.webp '
+        return '../../assets/img/league_role_icons/top.webp'
       case 1:
         return '../../assets/img/league_role_icons/jungle.webp';
       case 2:

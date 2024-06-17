@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   constructor(private fb: FormBuilder, private teamService: TeamService) {
     this.form = this.fb.group({
       rows: this.fb.array([]),
-      teamMode: ['Rank'] // Add the teamMode control with a default value
+      teamMode: ['Balanced'] // Add the teamMode control with a default value
     });
     this.checkboxForm = this.fb.group({
       clash: ['']
@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
               });
             })
           ),
-          teamMode: [parsedForm.teamMode || 'Rank'] // Ensure teamMode is added with a default value if missing
+          teamMode: [parsedForm.teamMode || 'Balanced'] // Ensure teamMode is added with a default value if missing
         });
       } else {
         this.addRow();
@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit {
     const roles = this.roles; // Define roles
     const players: Player[] = this.form.value.rows.map((row: any) => ({
       name: row.name,
-      rank: rankMapping[row.rank], // Convert rank to numeric value
+      rank: row.rank,
       role1: row.role1,
       role2: row.role2,
       notPlay: row.notPlay // Add the new field here
@@ -127,8 +127,8 @@ export class HomeComponent implements OnInit {
     const teamRequest: TeamRequest = { players, roles, mode: this.form.value.teamMode }; // Create request object
 
     this.teamService.createTeams(teamRequest).subscribe(
-      (teams: any) => {
-        this.teams = [teams.team1, teams.team2]; // Update the teams property
+      (response: any) => {
+        this.teams = response.teams; // Update the teams property
         this.showTeams = true; // Show the overlay when teams are created
       },
       (error: any) => { // Specify the type of error
@@ -141,20 +141,20 @@ export class HomeComponent implements OnInit {
     this.showTeams = false; // Close the overlay
   }
 
-  getRoleIcon(roleIndex: number) {
-    switch (roleIndex) {
-      case 0:
-        return '../../assets/img/league_role_icons/top.webp'
-      case 1:
+  getRoleIcon(role: string) {
+    switch (role) {
+      case 'Top':
+        return '../../assets/img/league_role_icons/top.webp';
+      case 'Jungle':
         return '../../assets/img/league_role_icons/jungle.webp';
-      case 2:
+      case 'Mid':
         return '../../assets/img/league_role_icons/mid.webp';
-      case 3:
+      case 'Adc':
         return '../../assets/img/league_role_icons/adc.webp';
-      case 4:
+      case 'Support':
         return '../../assets/img/league_role_icons/support.webp';
       default:
-        return '../../assets/img/league_role_icons/top.webp'; // Default icon if index is out of bounds
+        return '../../assets/img/league_role_icons/top.webp'; // Default icon if role is not recognized
     }
   }
 }

@@ -1,9 +1,11 @@
 <app-navbar></app-navbar>
-<div class="content-container">
-  <div class="content">
+<div class="content-container flex flex-col flex-1">
+  <div class="content w-full flex-1 flex justify-center items-center p-2 md:p-4 lg:p-8 bg-gray-900">
     <router-outlet></router-outlet>
   </div>
-  <footer>
-    <p>© 2024 Sapphirix. All rights reserved.</p>
+  <footer class="bg-gray-900 text-white p-4">
+    <div class="max-w-screen-xl mx-auto text-center">
+      <p>&copy; 2024 Sapphirix. All rights reserved.</p>
+    </div>
   </footer>
 </div>

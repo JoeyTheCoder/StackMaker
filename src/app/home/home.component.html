@@ -1,64 +1,93 @@
-<div class="content">
-  <div class="form-container" [@fadeInOut]="showTeams ? 'in' : 'out'">
-    <!-- Column Titles -->
-    <div class="example-container column-titles">
-      <div>Name</div>
-      <div>Rank</div>
-      <div>Main Role</div>
-      <div>Secondary Role</div>
-      <div>I can't play</div>
+<div class="content p-4">
+  <div class="form-container bg-gray-800 text-white p-6 rounded-lg shadow-lg">
+    <!-- Column Titles for larger screens -->
+    <div class="example-container column-titles grid grid-cols-6 gap-4 mb-4 text-center font-bold hidden md:grid">
+      <h2>Name</h2>
+      <h2>Rank</h2>
+      <h2>Main Role</h2>
+      <h2>Secondary Role</h2>
+      <h2>I can't play</h2>
+      <h2></h2>
     </div>
-    
     <form [formGroup]="form">
       <div formArrayName="rows">
-        <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i" class="form-row">
-          <input type="text" formControlName="name" placeholder="Name">
-          <select formControlName="rank">
+        <div *ngFor="let row of rows.controls; let i = index" [formGroupName]="i" class="form-row grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 border-b border-gray-500 pb-4">
+          <!-- Column Titles for smaller screens -->
+          <div class="block md:hidden">
+            <label class="text-sm font-bold">Name</label>
+          </div>
+          <input type="text" formControlName="name" placeholder="Name" required class="p-2 bg-gray-700 text-white rounded">
+          
+          <div class="block md:hidden">
+            <label class="text-sm font-bold">Rank</label>
+          </div>
+          <select formControlName="rank" required class="p-2 bg-gray-700 text-white rounded">
             <option *ngFor="let rank of ranks" [value]="rank">{{rank}}</option>
           </select>
-          <select formControlName="role1">
+          
+          <div class="block md:hidden">
+            <label class="text-sm font-bold">Main Role</label>
+          </div>
+          <select formControlName="role1" required class="p-2 bg-gray-700 text-white rounded">
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
-          <select formControlName="role2">
+          
+          <div class="block md:hidden">
+            <label class="text-sm font-bold">Secondary Role</label>
+          </div>
+          <select formControlName="role2" required class="p-2 bg-gray-700 text-white rounded">
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
-          <select formControlName="notPlay">
+          
+          <div class="block md:hidden">
+            <label class="text-sm font-bold">I can't play</label>
+          </div>
+          <select formControlName="notPlay" class="p-2 bg-gray-700 text-white rounded">
+            <option value=""></option>
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
-          <button type="button" class="delete-button" (click)="deleteRow(i)">
+          
+          <div class="block md:hidden">
+            <label class="text-sm font-bold"></label>
+          </div>
+          <button type="button" class="delete-button text-red-500" (click)="deleteRow(i)">
             <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
-      
-      <div>
-        <button type="button" id="addButton" (click)="addRow()" class="add-button">
-          Add Player<i class="fas fa-plus"></i>
-        </button>
-        <select formControlName="teamMode">
-          <option value="Rank">Sort by Rank</option>
-          <option value="Balanced">Balanced</option>
-          <option value="Random">Random</option>
-        </select>
-        <button id="createButton" (click)="createStack()">Create Stacks</button>
+      <button type="button" id="addButton" (click)="addRow()" class="add-button bg-green-500 text-white p-2 rounded">
+        <i class="fas fa-plus"></i>
+      </button>
+      <div class="separator border-t border-gray-500 my-4"></div>
+      <div class="action-container flex flex-col items-center">
+        <div class="center-actions flex flex-col gap-4">
+          <select formControlName="teamMode" title="Select mode for team creation" class="p-2 bg-gray-700 text-white rounded">
+            <option value="Rank">Sort by Rank</option>
+            <option value="Balanced">Balanced</option>
+            <option value="Random">Random</option>
+          </select>
+          <button id="createButton" (click)="createStack()" class="bg-blue-500 text-white p-2 rounded">
+            Create Stacks
+          </button>
+        </div>
       </div>
     </form>
   </div>
-
-  <!-- Overlay Card -->
-  <div class="overlay" *ngIf="showTeams" [@fadeInOut]="'in'">
-    <div class="card">
+  <div class="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" *ngIf="showTeams">
+    <div class="card bg-gray-800 text-white p-6 rounded-lg shadow-lg max-w-lg w-full">
       <h2>Created Teams</h2>
       <div *ngFor="let team of teams; let teamIndex = index">
-        <h3>Team {{ teamIndex + 1 }}</h3>
-        <ul>
-          <li *ngFor="let player of team; let roleIndex = index">
-            <img [src]="getRoleIcon(player.assigned_role)" alt="Role Icon" class="role-icon">
+        <h3 class="text-lg font-bold">Team {{ teamIndex + 1 }}</h3>
+        <ul class="list-none p-0">
+          <li *ngFor="let player of team; let roleIndex = index" class="flex items-center mb-2">
+            <img [src]="getRoleIcon(player.assigned_role)" alt="Role Icon" class="role-icon w-4 h-4 mr-2">
             Name: {{ player.name }}, Rank: {{ player.rank }}
           </li>
         </ul>
       </div>
-      <button (click)="closeOverlay()">Close</button>
+      <button (click)="closeOverlay()" class="bg-blue-500 text-white p-2 rounded mt-4">
+        Close
+      </button>
     </div>
   </div>
 </div>

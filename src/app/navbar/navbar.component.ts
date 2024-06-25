@@ -4,12 +4,19 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  isMenuOpen = false;
+
   constructor(private router: Router) { }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
 
   navigateTo(route: string): void {
     this.router.navigate([route]);
+    this.isMenuOpen = false; // Close the menu after navigation
   }
 }

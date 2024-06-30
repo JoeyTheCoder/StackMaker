@@ -1,18 +1,8 @@
+// team.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-interface Player {
-  name: string;
-  rank: number; // Make sure rank is of type number
-  role1: string;
-  role2: string;
-}
-
-interface TeamRequest {
-  players: Player[];
-  roles: string[];
-}
+import { TeamRequest } from '../models/team-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +13,7 @@ export class TeamService {
   constructor(private http: HttpClient) {}
 
   createTeams(request: TeamRequest): Observable<any> {
+    console.log('Sending team request:', request); // Log the request for debugging
     return this.http.post<any>(this.apiUrl, request);
   }
 }

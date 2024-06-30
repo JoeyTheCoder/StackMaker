@@ -1,7 +1,8 @@
+// home.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { TeamService } from '../services/team.service';
-import { TeamRequest, Player } from '../models/team-request.model'; // Import the interface
+import { Player, TeamRequest } from '../models/team-request.model';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -23,9 +24,10 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class HomeComponent implements OnInit {
   form: FormGroup;
-  checkboxForm: FormGroup;
   teams: any[] = [];
   showTeams = false;
+  attemptedSubmit = false;
+  displayErrorMessage = false;
   ranks: string[] = [
     'Iron4', 'Iron3', 'Iron2', 'Iron1',
     'Bronze4', 'Bronze3', 'Bronze2', 'Bronze1',
@@ -41,15 +43,11 @@ export class HomeComponent implements OnInit {
   constructor(private fb: FormBuilder, private teamService: TeamService) {
     this.form = this.fb.group({
       rows: this.fb.array([]),
-      teamMode: ['Balanced'] // Add the teamMode control with a default value
-    });
-    this.checkboxForm = this.fb.group({
-      clash: ['']
+      teamMode: ['Balanced']
     });
   }
 
   ngOnInit() {
-    this.form.addControl('clash', this.fb.control(''));
     this.loadForm();
     this.form.valueChanges.subscribe((value) => {
       localStorage.setItem('form', JSON.stringify(value));
@@ -61,12 +59,14 @@ export class HomeComponent implements OnInit {
   }
 
   addRow() {
+    this.attemptedSubmit = false;
+    this.displayErrorMessage = false;
     this.rows.push(this.fb.group({
-      name: '',
-      rank: '',
-      role1: '',
+      name: ['', Validators.required],
+      rank: ['', Validators.required],
+      role1: ['', Validators.required],
       role2: '',
-      notPlay: '' // Add the new field here
+      notPlay: ''
     }));
   }
 
@@ -76,69 +76,69 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  deleteAllRows() {
+    this.attemptedSubmit = false;
+    this.displayErrorMessage = false;
+    while (this.rows.length !== 0) {
+      this.rows.removeAt(0);
+    }
+  }
+
   loadForm() {
-    if (typeof localStorage !== 'undefined') {
-      const storedForm = localStorage.getItem('form');
-      if (storedForm) {
-        const parsedForm = JSON.parse(storedForm);
-        this.form = this.fb.group({
-          rows: this.fb.array(
-            parsedForm.rows.map((row: { name: string; rank: string; role1: string; role2: string; notPlay?: string; }) => {
-              return this.fb.group({
-                name: row.name,
-                rank: row.rank,
-                role1: row.role1,
-                role2: row.role2,
-                notPlay: row.notPlay || '' // Ensure notPlay is added with a default value if missing
-              });
-            })
-          ),
-          teamMode: [parsedForm.teamMode || 'Balanced'] // Ensure teamMode is added with a default value if missing
-        });
-      } else {
-        this.addRow();
-      }
+    const storedForm = localStorage.getItem('form');
+    if (storedForm) {
+      const parsedForm = JSON.parse(storedForm);
+      this.form.setControl('rows', this.fb.array(
+        parsedForm.rows.map((row: { name: string; rank: string; role1: string; role2: string; notPlay?: string; }) => {
+          return this.fb.group({
+            name: [row.name, Validators.required],
+            rank: [row.rank, Validators.required],
+            role1: [row.role1, Validators.required],
+            role2: row.role2,
+            notPlay: row.notPlay || ''
+          });
+        })
+      ));
+      this.form.patchValue({
+        teamMode: parsedForm.teamMode || 'Balanced'
+      });
+    } else {
+      this.addRow();
     }
   }
 
   createStack() {
-    console.log(JSON.stringify(this.form.value));
+    this.attemptedSubmit = true;
+    this.displayErrorMessage = this.form.invalid;
+    console.log(this.form.value);
+    if (this.form.invalid) {
+      return;
+    }
 
-    const rankMapping: { [key: string]: number } = {
-      'Iron4': 1, 'Iron3': 2, 'Iron2': 3, 'Iron1': 4,
-      'Bronze4': 5, 'Bronze3': 6, 'Bronze2': 7, 'Bronze1': 8,
-      'Silver4': 9, 'Silver3': 10, 'Silver2': 11, 'Silver1': 12,
-      'Gold4': 13, 'Gold3': 14, 'Gold2': 15, 'Gold1': 16,
-      'Platinum4': 17, 'Platinum3': 18, 'Platinum2': 19, 'Platinum1': 20,
-      'Emerald4': 21, 'Emerald3': 22, 'Emerald2': 23, 'Emerald1': 24,
-      'Diamond4': 25, 'Diamond3': 26, 'Diamond2': 27, 'Diamond1': 28,
-      'Master': 29, 'Grandmaster': 30, 'Challenger': 31
-    };
-
-    const roles = this.roles; // Define roles
     const players: Player[] = this.form.value.rows.map((row: any) => ({
       name: row.name,
       rank: row.rank,
       role1: row.role1,
       role2: row.role2,
-      notPlay: row.notPlay // Add the new field here
+      notPlay: row.notPlay
     }));
 
-    const teamRequest: TeamRequest = { players, roles, mode: this.form.value.teamMode }; // Create request object
+    const teamRequest: TeamRequest = { players, roles: this.roles, mode: this.form.value.teamMode };
 
     this.teamService.createTeams(teamRequest).subscribe(
       (response: any) => {
-        this.teams = response.teams; // Update the teams property
-        this.showTeams = true; // Show the overlay when teams are created
+        console.log('Received response:', response); // Log the response
+        this.teams = response.teams;
+        this.showTeams = true;
       },
-      (error: any) => { // Specify the type of error
+      (error: any) => {
         console.error('Error creating teams:', error);
       }
     );
   }
 
   closeOverlay() {
-    this.showTeams = false; // Close the overlay
+    this.showTeams = false;
   }
 
   getRoleIcon(role: string) {
@@ -154,7 +154,7 @@ export class HomeComponent implements OnInit {
       case 'Support':
         return '../../assets/img/league_role_icons/support.webp';
       default:
-        return '../../assets/img/league_role_icons/top.webp'; // Default icon if role is not recognized
+        return '../../assets/img/league_role_icons/top.webp';
     }
   }
 }

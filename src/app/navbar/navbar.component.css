@@ -1,12 +1,18 @@
-/* src/styles.css */
+/* Ensure pointer cursor on hover for all links */
+nav a {
+  cursor: pointer; /* Ensures the hand pointer appears on hover */
+}
+
+/* Other styles remain unchanged */
 .app-logo {
-  width: auto;
+  height: 48px; /* Increase the height to make the logo larger */
+  width: auto; /* Maintain aspect ratio */
 }
 
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {
   .app-logo {
-    height: 30px; /* Adjust height for smaller screens */
+    height: 36px; /* Slightly smaller on small screens for better fit */
     width: auto;
   }
 

@@ -1,0 +1,64 @@
+.text-block {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #e2e8f0; /* Lighter text color for better readability */
+}
+
+.text-block p {
+  margin-bottom: 1rem; /* Space between paragraphs */
+}
+
+.form-container h2 {
+  color: #edf2f7; /* Lighter color for headings */
+}
+
+.form-container {
+  max-width: 800px; /* Max width for the donation section container */
+  margin: 0 auto; /* Center align the container */
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity)); /* Forced background color */
+}
+
+.donation-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Column layout to keep centered */
+}
+
+/* Remove the multi-column grid for larger screens */
+@media (min-width: 768px) {
+  .donation-options {
+    display: flex; /* Force flex display on larger screens */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+  }
+}
+
+.donation-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.donation-option img {
+  width: 5rem; /* Adjust the size as needed */
+  height: 5rem; /* Adjust the size as needed */
+  margin-bottom: 0.5rem; /* Space between the logo and the button */
+}
+
+.donation-option a {
+  width: 100%; /* Full width for buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none; /* Remove underline from links */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.donation-option a i {
+  margin-right: 0.5rem; /* Space between icon and text */
+}
+
+.donation-option a:hover {
+  opacity: 0.9; /* Slight opacity change on hover for visual feedback */
+}

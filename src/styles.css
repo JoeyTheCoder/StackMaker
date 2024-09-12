@@ -5,17 +5,36 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 html, body {
     height: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
-  }
-  
-  app-root {
+    font-size: 16px; /* Base font size for general screens */
+    line-height: 1.5; /* Improve readability */
+}
+
+app-root {
     flex: 1;
     display: flex;
     flex-direction: column;
-  }
+}
+
+/* Increase font size for larger screens */
+@media (min-width: 1920px) {
+    html {
+        font-size: 18px; /* Increase font size for Full HD screens */
+    }
+}
+
+@media (min-width: 2560px) {
+    html {
+        font-size: 20px; /* Further increase for 2K screens */
+    }
+}
+
+@media (min-width: 3840px) {
+    html {
+        font-size: 22px; /* Further increase for 4K screens */
+    }
+}

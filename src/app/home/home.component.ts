@@ -1,4 +1,3 @@
-// home.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { TeamService } from '../services/team.service';
@@ -24,7 +23,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class HomeComponent implements OnInit {
   form: FormGroup;
-  teams: any[] = [];
+  teams: any[][] = [];  // Updated to handle multiple teams as arrays
   showTeams = false;
   attemptedSubmit = false;
   displayErrorMessage = false;
@@ -38,7 +37,7 @@ export class HomeComponent implements OnInit {
     'Emerald 4', 'Emerald 3', 'Emerald 2', 'Emerald 1',
     'Diamond 4', 'Diamond 3', 'Diamond 2', 'Diamond 1',
     'Master', 'Grandmaster', 'Challenger'
-];
+  ];
 
   roles: string[] = ['Top', 'Jungle', 'Mid', 'Adc', 'Support'];
 
@@ -55,7 +54,7 @@ export class HomeComponent implements OnInit {
       localStorage.setItem('form', JSON.stringify(value));
     });
 
-    console.log("StackMaker Frontend Version: 1.00")
+    console.log("StackMaker Frontend Version: 1.00");
 
     this.teamService.getGreeting().subscribe(
       (response: string) => {
@@ -65,7 +64,6 @@ export class HomeComponent implements OnInit {
         console.error('Error fetching greeting:', error); // Log any errors
       }
     );
-    
   }
 
   get rows(): FormArray {
@@ -128,26 +126,27 @@ export class HomeComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-  
+
     const players: Player[] = this.form.value.rows.map((row: any) => ({
       name: row.name,
       rank: row.rank,
       role1: row.role1,
       role2: row.role2,
-      notPlay: row.notPlay
+      cant_play: row.notPlay ? row.notPlay : null // Set cant_play to null if it's an empty string
     }));
-  
-    const teamRequest: TeamRequest = { players, roles: this.roles, mode: this.form.value.teamMode };
-  
+
+    const teamMode = this.form.value.teamMode.toLowerCase();
+
+    const teamRequest: TeamRequest = { players, roles: this.roles, mode: teamMode };
+
     this.teamService.createTeams(teamRequest).subscribe(
       (response: any) => {
-        console.log('Received response:', response); // Log the response
+        console.log('Received response:', response);
         if (response.error) {
           this.errorMessage = response.error;
           this.displayErrorMessage = true;
         } else {
-          // Map the backend response correctly to the teams array
-          this.teams = [response.team1, response.team2]; // Correctly map the backend team1 and team2 to this.teams
+          this.teams = response.teams;  // Updated to handle multiple teams
           this.showTeams = true;
         }
       },
@@ -158,7 +157,6 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  
 
   closeOverlay() {
     this.showTeams = false;

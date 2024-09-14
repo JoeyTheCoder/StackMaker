@@ -62,3 +62,9 @@
 .donation-option a:hover {
   opacity: 0.9; /* Slight opacity change on hover for visual feedback */
 }
+
+/* Rounded corners for Ko-fi iframe */
+#kofiframe {
+  border-radius: 8px; /* Adjust the value to control the roundness */
+  overflow: hidden; /* Ensures the rounded corners apply properly */
+}

@@ -18,17 +18,7 @@ This Project should step in when it's too socially awkward to decide how to spli
 - If two players have the same main role, the one with the higher rank should have higher priority for it
 
 
-# Frontend To-Do's
+# Frontend To-Do
 
- - ESC and click outside of card to close stack card
- - Security --> no Cross Site Scripting etc.
- - Deploy
- - Release
- - Write Reddit Post
- - Are you sure you want to delete all Entries?
-
-# Backend To-Do's
-
- - Rate limiting API
- - Create secret API-Key between Apps
- - 
+- Scrollbar StackCard
+- Dark Mode Light Mode (idea)

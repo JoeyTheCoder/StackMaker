@@ -16,9 +16,11 @@
           <div class="block md:hidden">
             <label class="text-sm font-bold">Name</label>
           </div>
-          <input type="text" formControlName="name" placeholder="Name" required class="p-2 bg-gray-700 text-white rounded" 
+          <input type="text" formControlName="name" placeholder="Name" required maxlength="50"
+                 pattern="^[a-zA-ZäöüÄÖÜß\s\-]+$" 
+                 class="p-2 bg-gray-700 text-white rounded" 
                  [class.is-invalid]="attemptedSubmit && row.get('name')?.invalid">
-          
+
           <div class="block md:hidden">
             <label class="text-sm font-bold">Rank</label>
           </div>
@@ -27,7 +29,7 @@
             <option value="">Select Rank</option>
             <option *ngFor="let rank of ranks" [value]="rank">{{rank}}</option>
           </select>
-          
+
           <div class="block md:hidden">
             <label class="text-sm font-bold">Main Role</label>
           </div>
@@ -36,7 +38,7 @@
             <option value="">Select Main Role</option>
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
-          
+
           <div class="block md:hidden">
             <label class="text-sm font-bold">Secondary Role</label>
           </div>
@@ -44,7 +46,7 @@
             <option value="">Select Secondary Role</option>
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
-          
+
           <div class="block md:hidden">
             <label class="text-sm font-bold">I can't play</label>
           </div>
@@ -52,7 +54,7 @@
             <option value=""></option>
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
-          
+
           <div class="block md:hidden">
             <label class="text-sm font-bold"></label>
           </div>
@@ -80,32 +82,34 @@
           <button id="createButton" (click)="createStack()" class="create-section bg-blue-500 text-white p-2 rounded">
             Create Stacks
           </button>
-          
         </div>
-        <div style="padding-top: 1em;" *ngIf="displayErrorMessage" class="error-message"> {{ errorMessage }} </div>
+        <div style="padding-top: 1em;" *ngIf="displayErrorMessage" class="error-message text-red-500"> {{ errorMessage }} </div>
       </div>
     </form>
   </div>
   <div class="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" *ngIf="showTeams">
     <div class="card bg-gray-800 text-white p-6 rounded-lg shadow-lg w-3/4 h-3/4 relative overflow-hidden">
       <div id="card-header">
-      <button (click)="closeOverlay()" class="close-button absolute top-2 right-2 text-white text-2xl p-2 bg-red-500 rounded-full hover:bg-red-700">
-        &times;
-      </button>
-      <h2 class="text-center text-2xl mb-4">Created Teams</h2>
-    </div>
+        <button (click)="closeOverlay()" class="close-button absolute top-2 right-2 text-white text-2xl p-2 bg-red-500 rounded-full hover:bg-red-700">
+          &times;
+        </button>
+        <h2 class="text-center text-2xl mb-4">Created Teams</h2>
+      </div>
       <div class="scrollable-container h-full overflow-y-auto pr-4">
-        <div *ngFor="let team of teams; let teamIndex = index" class="team mb-4">
-          <h3 class="text-lg font-bold text-center mb-2">Team {{ teamIndex + 1 }}</h3>
-          <ul class="list-none p-0 flex flex-col items-center">
-            <li *ngFor="let player of team" class="flex items-center mb-2 bg-gray-700 p-2 rounded-lg w-2/3">
-              <img [src]="getRoleIcon(player.assigned_role)" alt="Role Icon" class="role-icon w-6 h-6">
-              <span class="player-name">{{ player.name }}</span>
-              <span class="player-rank">{{ player.rank }}</span>
-            </li>
-          </ul>
-        </div>
+        <!-- Iterate over each team dynamically -->
+        <ng-container *ngFor="let team of teams; let teamIndex = index">
+          <div class="team mb-4" *ngIf="team.length > 0">
+            <h3 class="text-lg font-bold text-center mb-2">Team {{ teamIndex + 1 }}</h3>
+            <ul class="list-none p-0 flex flex-col items-center">
+              <li *ngFor="let player of team" class="flex items-center mb-2 bg-gray-700 p-2 rounded-lg w-2/3">
+                <img [src]="getRoleIcon(player.assigned_role)" alt="Role Icon" class="role-icon w-6 h-6">
+                <span class="player-name">{{ player.name }}</span>
+                <span class="player-rank">{{ player.rank }}</span>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
       </div>
     </div>
-  </div>
+  </div>  
 </div>

@@ -16,3 +16,16 @@
   max-width: 800px; /* Max width for the about section container */
   margin: 0 auto; /* Center align the container */
 }
+
+/* Adjust logo size */
+.logo-image {
+  max-width: 50%; /* Set the logo to half its size */
+  display: block;
+  margin: 0 auto; /* Center the logo */
+}
+
+/* Style for the sign-off message */
+.text-block p.text-center {
+  color: #edf2f7; /* Match color with headings */
+  font-size: 1.1rem; /* Slightly larger for emphasis */
+}

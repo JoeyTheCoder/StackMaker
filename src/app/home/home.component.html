@@ -95,7 +95,7 @@
         <h2 class="text-center text-2xl mb-4">Created Teams</h2>
       </div>
       <div class="scrollable-container h-full overflow-y-auto pr-4">
-        <!-- Iterate over each team dynamically -->
+        <!-- Iterate over each dynamically generated team -->
         <ng-container *ngFor="let team of teams; let teamIndex = index">
           <div class="team mb-4" *ngIf="team.length > 0">
             <h3 class="text-lg font-bold text-center mb-2">Team {{ teamIndex + 1 }}</h3>

@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
+  
     const players: Player[] = this.form.value.rows.map((row: any) => ({
       name: row.name,
       rank: row.rank,
@@ -134,11 +134,11 @@ export class HomeComponent implements OnInit {
       role2: row.role2,
       cant_play: row.notPlay ? row.notPlay : null // Set cant_play to null if it's an empty string
     }));
-
+  
     const teamMode = this.form.value.teamMode.toLowerCase();
-
+  
     const teamRequest: TeamRequest = { players, roles: this.roles, mode: teamMode };
-
+  
     this.teamService.createTeams(teamRequest).subscribe(
       (response: any) => {
         console.log('Received response:', response);
@@ -146,7 +146,8 @@ export class HomeComponent implements OnInit {
           this.errorMessage = response.error;
           this.displayErrorMessage = true;
         } else {
-          this.teams = response.teams;  // Updated to handle multiple teams
+          // Updated to handle team1 and team2 from the backend response
+          this.teams = [response.team1, response.team2];
           this.showTeams = true;
         }
       },
@@ -157,6 +158,7 @@ export class HomeComponent implements OnInit {
       }
     );
   }
+  
 
   closeOverlay() {
     this.showTeams = false;

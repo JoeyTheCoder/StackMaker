@@ -17,10 +17,9 @@
             <label class="text-sm font-bold">Name</label>
           </div>
           <input type="text" formControlName="name" placeholder="Name" required maxlength="50"
-                 pattern="^[a-zA-ZäöüÄÖÜß\s\-]+$" 
-                 class="p-2 bg-gray-700 text-white rounded" 
-                 [class.is-invalid]="attemptedSubmit && row.get('name')?.invalid">
-
+          pattern="^[a-zA-Z0-9äöüÄÖÜß\s\-\!\@\#\$\%\^\&\*\(\)]+$"
+          class="p-2 bg-gray-700 text-white rounded"
+          [class.is-invalid]="attemptedSubmit && row.get('name')?.invalid">
           <div class="block md:hidden">
             <label class="text-sm font-bold">Rank</label>
           </div>

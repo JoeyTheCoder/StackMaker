@@ -34,7 +34,7 @@
   <!-- Content Security Policy (CSP) -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' https://fonts.googleapis.com https://cdnjs.buymeacoffee.com;
+    script-src 'self' https://fonts.googleapis.com https://cdnjs.buymeacoffee.com 'unsafe-hashes';  /* Allows event handlers */
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' data: https://stackmaker.ffgang.ch https://storage.ko-fi.com https://cdn.ko-fi.com;
     font-src 'self' https://fonts.gstatic.com;
@@ -53,5 +53,5 @@
 <body class="mat-typography">
   <app-root></app-root>
 
-  </body>
+</body>
 </html>

@@ -10,8 +10,13 @@ import { environment } from '../../environments/environment'; // Ensure the path
 })
 export class TeamService {
   private apiUrl = `${environment.apiUrl}/create-teams`; // Updated with the environment variable
+  private greetingUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
+
+  getGreeting(): Observable<string> {
+    return this.http.get<string>(this.greetingUrl);
+  }
 
   createTeams(request: TeamRequest): Observable<any> {
     console.log('Sending team request:', request); // Log the request for debugging

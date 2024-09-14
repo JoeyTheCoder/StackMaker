@@ -54,6 +54,18 @@ export class HomeComponent implements OnInit {
     this.form.valueChanges.subscribe((value) => {
       localStorage.setItem('form', JSON.stringify(value));
     });
+
+    console.log("StackMaker Frontend Version: 1.00")
+
+    this.teamService.getGreeting().subscribe(
+      (response: string) => {
+        console.log('Greeting from FastAPI:', response); // Log the response to the console
+      },
+      (error) => {
+        console.error('Error fetching greeting:', error); // Log any errors
+      }
+    );
+    
   }
 
   get rows(): FormArray {

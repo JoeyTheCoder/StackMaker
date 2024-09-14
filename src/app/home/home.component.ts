@@ -146,8 +146,7 @@ export class HomeComponent implements OnInit {
           this.errorMessage = response.error;
           this.displayErrorMessage = true;
         } else {
-          // Updated to handle team1 and team2 from the backend response
-          this.teams = [response.team1, response.team2];
+          this.teams = response.teams || [];  // Ensure that teams is always an array
           this.showTeams = true;
         }
       },
@@ -157,6 +156,7 @@ export class HomeComponent implements OnInit {
         this.displayErrorMessage = true;
       }
     );
+    
   }
   
 

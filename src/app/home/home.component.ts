@@ -44,12 +44,13 @@ export class HomeComponent implements OnInit {
   constructor(private fb: FormBuilder, private teamService: TeamService) {
     this.form = this.fb.group({
       rows: this.fb.array([]),
-      teamMode: ['Balanced']
+      teamMode: ['Rank']
     });
   }
 
   ngOnInit() {
     this.loadForm();
+    this.handleDefaultValues(); // Ensure default values are handled
     this.form.valueChanges.subscribe((value) => {
       localStorage.setItem('form', JSON.stringify(value));
     });
@@ -112,7 +113,7 @@ export class HomeComponent implements OnInit {
         })
       ));
       this.form.patchValue({
-        teamMode: parsedForm.teamMode || 'Balanced'
+        teamMode: parsedForm.teamMode || 'Rank' 
       });
     } else {
       this.addRow();
@@ -180,4 +181,15 @@ export class HomeComponent implements OnInit {
         return '../../assets/img/league_role_icons/top.webp';
     }
   }
+
+  handleDefaultValues() {
+    this.rows.controls.forEach(control => {
+      control.get('name')?.valueChanges.subscribe(value => {
+        if (value === '') {
+          control.get('name')?.setValue('0', { emitEvent: false });
+        }
+      });
+    });
+  }
+  
 }

@@ -41,10 +41,12 @@
           <div class="block md:hidden">
             <label class="text-sm font-bold">Secondary Role</label>
           </div>
-          <select formControlName="role2" class="p-2 bg-gray-700 text-white rounded">
+          <select formControlName="role2" required class="p-2 bg-gray-700 text-white rounded"
+                  [class.is-invalid]="attemptedSubmit && row.get('role2')?.invalid">
             <option value="">Select Secondary Role</option>
             <option *ngFor="let role of roles" [value]="role">{{role}}</option>
           </select>
+          
 
           <div class="block md:hidden">
             <label class="text-sm font-bold">I can't play</label>

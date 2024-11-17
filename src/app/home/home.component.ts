@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
       name: ['', Validators.required],
       rank: ['', Validators.required],
       role1: ['', Validators.required],
-      role2: '',
+      role2: ['', Validators.required], 
       notPlay: ''
     }));
   }
@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
             name: [row.name, Validators.required],
             rank: [row.rank, Validators.required],
             role1: [row.role1, Validators.required],
-            role2: row.role2,
+            role2: [row.role2, Validators.required], 
             notPlay: row.notPlay || ''
           });
         })
@@ -119,6 +119,7 @@ export class HomeComponent implements OnInit {
       this.addRow();
     }
   }
+  
 
   createStack() {
     this.attemptedSubmit = true;

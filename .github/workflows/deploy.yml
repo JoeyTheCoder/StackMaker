@@ -31,4 +31,4 @@ jobs:
         username: sapphirix
         key: ${{ secrets.SSH_KEY }}
         source: "dist/stack-maker-fe/**"
-        target: "/var/www/vhosts/ffgang.ch/stackmaker.ffgang.ch/dist/"
+        target: "/var/www/vhosts/ffgang.ch/stackmaker.ffgang.ch/"

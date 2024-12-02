@@ -1,27 +1,70 @@
-/* Ensure pointer cursor on hover for all links */
+/* General hover styles for all navigation links */
 nav a {
-  cursor: pointer; /* Ensures the hand pointer appears on hover */
+  cursor: pointer;
+  color: white;
+  transition: color 0.3s, background-color 0.3s;
 }
 
-/* Other styles remain unchanged */
+nav a:hover {
+  color: #3b82f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  nav a:hover {
+    color: #2563eb;
+    background-color: #374151;
+  }
+}
+
+/* Disable hover effects ONLY for the no-hover class (logo and StackMaker) */
+a.no-hover {
+  text-decoration: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+a.no-hover:hover {
+  text-decoration: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+a.no-hover img {
+  transition: none;
+}
+
+a.no-hover:hover img {
+  filter: none;
+}
+
+a.no-hover span {
+  color: white;
+  transition: none;
+}
+
+a.no-hover:hover span {
+  color: white;
+}
+
+
+
 .app-logo {
-  height: 48px; /* Increase the height to make the logo larger */
-  width: auto; /* Maintain aspect ratio */
+  height: 48px;
+  width: auto;
 }
 
-/* Media Queries for Responsive Design */
 @media (max-width: 600px) {
   .app-logo {
-    height: 36px; /* Slightly smaller on small screens for better fit */
+    height: 36px;
     width: auto;
   }
 
   .app-title {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem;
   }
 
   .btn {
-    font-size: 0.875rem; /* 14px */
-    margin-right: 0.625rem; /* 10px */
+    font-size: 0.875rem;
+    margin-right: 0.625rem;
   }
 }

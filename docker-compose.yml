@@ -1,10 +1,10 @@
 version: '3'
 services:
   angular:
-    build: .
+    image: nginx:alpine
     container_name: angular_app
     ports:
-      - "80:80"  # Expose port 80
+      - "80:80"  # Expose port 80 to serve the app
     volumes:
-      - ./dist:/usr/share/nginx/html  # Map the dist directory to NGINX's root
+      - ./dist/stack-maker-fe:/usr/share/nginx/html  # Map built Angular files to NGINX
     restart: always

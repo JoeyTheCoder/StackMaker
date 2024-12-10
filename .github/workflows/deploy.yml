@@ -31,8 +31,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           port: 22
-          source: "dist/"
-          target: "/var/www/stackmaker.ffgang.ch/dist/stack-maker-fe"
+          source: "dist/stack-maker-fe"
+          target: "/var/www/stackmaker.ffgang.ch/dist/"
 
       - name: Restart Nginx (Optional)
         uses: appleboy/ssh-action@v0.1.6

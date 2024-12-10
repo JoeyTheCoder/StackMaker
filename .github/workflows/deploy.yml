@@ -16,13 +16,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.13'  # This should match the version in your Dockerfile
+        node-version: '18.13'
 
     - name: Install Dependencies
       run: npm install --force
 
     - name: Build Angular App
-      run: npm run build --prod  # This will build the app in the dist/ directory
+      run: npm run build --prod
 
     - name: Deploy to IONOS Server
       uses: appleboy/scp-action@v0.1.6
@@ -30,8 +30,8 @@ jobs:
         host: 87.106.191.170
         username: sapphirix
         key: ${{ secrets.SSH_KEY }}
-        source: "dist/stack-maker-fe/**"  # Only the built files
-        target: "/home/sapphirix/stackmaker-fe/StackMaker"
+        source: "dist/stack-maker-fe/**"
+        target: "/home/sapphirix/stackmaker-fe/StackMaker/dist/stack-maker-fe/"
 
     - name: SSH Command to Restart Docker Compose
       uses: appleboy/ssh-action@v0.1.7

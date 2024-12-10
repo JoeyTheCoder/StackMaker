@@ -4,7 +4,7 @@ services:
     image: nginx:alpine
     container_name: angular_app
     ports:
-      - "80:80"  # Expose port 80 to serve the app
+      - "8080:80"  # Change port mapping from 80:80 to 8080:80
     volumes:
-      - ./dist/stack-maker-fe:/usr/share/nginx/html  # Map built Angular files to NGINX
+      - ./dist/stack-maker-fe:/usr/share/nginx/html
     restart: always

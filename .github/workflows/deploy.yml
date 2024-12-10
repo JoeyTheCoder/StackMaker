@@ -3,43 +3,43 @@ name: Build and Deploy Angular App
 on:
   push:
     branches:
-      - master
+      - main  # Change to your default branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.13'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Specify your Node.js version
 
-    - name: Install Dependencies
-      run: npm install --force
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Build Angular App
-      run: npm run build --prod
+      - name: Build Angular App
+        run: npm run build --prod
 
-    - name: Deploy to IONOS Server
-      uses: appleboy/scp-action@v0.1.6
-      with:
-        host: 87.106.191.170
-        username: sapphirix
-        key: ${{ secrets.SSH_KEY }}
-        source: "dist/stack-maker-fe/**"
-        target: "/home/sapphirix/stackmaker-fe/StackMaker/dist/stack-maker-fe/"
+      - name: Deploy to Server
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 22
+          source: "dist/"
+          target: "/var/www/stackmaker.ffgang.ch/dist"
 
-    - name: SSH Command to Restart Docker Compose
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: 87.106.191.170
-        username: sapphirix
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          cd /home/sapphirix/stackmaker-fe/StackMaker
-          sudo docker-compose down
-          sudo docker-compose up -d
+      - name: Restart Nginx (Optional)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 22
+          script: |
+            sudo systemctl reload nginx

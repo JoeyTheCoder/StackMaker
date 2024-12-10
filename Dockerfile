@@ -1,12 +1,8 @@
-# Angular Dockerfile
-FROM node:16 AS build
-
-WORKDIR /app
-
-COPY . .
-
-RUN npm install --force
-RUN npm run build --prod
-
+# Use a lightweight NGINX image to serve the built Angular app
 FROM nginx:alpine
-COPY --from=build /app/dist/stack-maker-fe /usr/share/nginx/html
+
+# Copy the built Angular files from the host (server directory)
+COPY ./dist/stack-maker-fe /usr/share/nginx/html
+
+# Expose port 80 for the NGINX container
+EXPOSE 80

@@ -27,12 +27,13 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/scp-action@v0.1.6
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          port: 22
-          source: "dist/stack-maker-fe"
-          target: "/var/www/stackmaker.ffgang.ch/"
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        port: 22
+        source: "dist/stack-maker-fe/browser/*"  # Copies all contents inside 'browser'
+        target: "/var/www/stackmaker.ffgang.ch/dist/"  # Deploys directly into 'dist/'
+
 
       - name: Restart Nginx (Optional)
         uses: appleboy/ssh-action@v0.1.6

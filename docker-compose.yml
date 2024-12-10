@@ -1,0 +1,10 @@
+version: '3'
+services:
+  angular:
+    build: .
+    container_name: angular_app
+    ports:
+      - "80:80"  # Map host port 80 to container port 80
+    volumes:
+      - ./dist:/usr/share/nginx/html  # Serve built Angular files from here
+    restart: always
